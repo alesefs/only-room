@@ -19,6 +19,8 @@ var game_state = {
     
     init: function () {
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.plugins.add(Phaser.Plugin.ArcadeSlopes);
+        
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         //game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         game.scale.pageAlignHorizontally = true;
@@ -60,7 +62,7 @@ var game_state = {
 	},
     
 	preload: function () {
-        game.load.tilemap('map', 'maps.csv', null, Phaser.Tilemap.CSV);
+        game.load.tilemap('map', 'map.csv', null, Phaser.Tilemap.CSV);
         game.load.image('tiles', 'map.png');
         game.load.spritesheet('maps', 'map.png', 16, 16);
         game.load.spritesheet('player', 'player.png', 16, 16);
@@ -68,28 +70,31 @@ var game_state = {
     
     
     create: function () {
-        
-        
         //map
         map = game.add.tilemap('map', 16, 16);
         map.addTilesetImage('tiles');
         map.setCollisionByExclusion([0]);
+        //map.setCollisionBetween(1, 15, true, 'collision');
+        
         layer = map.createLayer(0, map.widthInPixels, map.heightInPixels);
+        //map.setTileIndexCallback([15], this.hitSlopesAD, this);
         layer.setScale(scale);
-        /*
-        layer.fixedToCamera = false;
-        layer.scrollFactorX = 0;
-        layer.scrollFactorY = 0;
-        this.mapOffsetX = (game.camera.width - map.widthInPixels) / 2;
-        layer.position.set(this.mapOffsetX, 0);
-        layer.anchor.set(0.5);
+        
+        game.slopes.convertTilemapLayer(layer, {
+            12: 'HALF_BOTTOM_LEFT',
+            13: 'HALF_TOP_LEFT',
+            14: 'HALF_TOP_RIGHT',
+            15: 'HALF_BOTTOM_RIGHT'
+        });
+        
         //layer.debug = true;
-        */
         layer.resizeWorld();
         
         
+        
         player = this.game.add.sprite(layer.x + 150, layer.y + 200, 'player');//layer.x + layer.width / 2 - 100, layer.y + layer.height / 2, 'player');
-        player.anchor.set(0.5);
+        //player.position.set(x, y);
+        player.anchor.set(0);
         player.scale.set(0.5 * scale);
         player.animations.add('left', [8,9], 10, true);
         player.animations.add('right', [1,2], 10, true);
@@ -97,10 +102,12 @@ var game_state = {
         player.animations.add('down', [4,5,6], 10, true);
         player.animations.add('idle', [1], 10, true);
         player.play('idle');
-        this.game.physics.enable(player, Phaser.Physics.ARCADE);
+        game.physics.enable(player, Phaser.Physics.ARCADE);
         //player.body.setSize(10, 10, 2.5, 2.5);
+        //player.body.setCircle(10);
         player.body.collideWorldBounds = true;
-        this.game.camera.follow(player);//, Phaser.Camera.FOLLOW_LOCKON);
+        game.camera.follow(player);//, Phaser.Camera.FOLLOW_LOCKON);
+        game.slopes.enable(player);
         
         
         
@@ -126,14 +133,17 @@ var game_state = {
             player.body.velocity.y = 200;
         }
         
-        this.game.physics.arcade.collide(player, layer);
+        game.physics.arcade.collide(player, layer);
         
     },
+    
+    /*hitSlopesAD: function (player, slopes) {  
+        slopes.alpha = 0.5;          
+    },*/
    
     render: function () {
-        this.game.debug.text("lx: " + layer.x + " ly: " + layer.y + " lw: " + layer.width + " lh: " + layer.height, 50, this.game.height - 100, "#f0f");
-        //this.game.debug.text("gw: " + w + " gh: " + h + " r: " + r, 50, this.game.height - 100, "#f0f");
-        //this.game.debug.text("ww: " + ww + " wh: " + wh + " wr: " + wr, 50, this.game.height - 50, "#f0f");
+        game.debug.body(player);
+        game.debug.text("py: " + Math.round(player.y) + " ph: " + player.height + " px: " + Math.round(player.x) + " pw: " + player.width, 50, game.height - 50, "#f0f");
     }
     
 };

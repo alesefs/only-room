@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="map" tilewidth="16" tileheight="16" tilecount="16" columns="4">
+  <image source="map.png" trans="ff00ff" width="64" height="64"/>
+ </tileset>
+ <layer name="Camada de Tiles 1" width="10" height="10">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,
+2,9,8,8,8,8,8,8,10,2,
+2,7,4,1,1,1,1,4,5,2,
+2,7,1,1,1,1,1,1,5,2,
+2,7,1,1,16,13,1,1,5,2,
+2,7,1,1,15,14,1,1,5,2,
+2,7,1,1,1,1,1,1,5,2,
+2,7,4,1,1,1,1,4,5,2,
+2,12,6,6,6,6,6,6,11,2,
+2,2,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+</map>
