@@ -19,13 +19,72 @@
     <style type="text/css">
         html { overflow-y: hidden; overflow-x: hidden; }
         body { margin: 0%; padding: 0%; background: #000000; }
+        canvas { z-index: 1; }
+        #rotate {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 3;
+			background: indigo;
+			color: azure; 
+			text-align: center;
+			padding-top: 25%;
+			display: none;
+		}
     </style>
     
     <script src="phaser.js"></script>        
     <script src="main.js"></script>
+    
+    <script type="text/javascript">
+		
+        /*function myFunction() {
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+			var z = window.orientation;
+
+		    //document.getElementById("fix").innerHTML = "W: " + w + " x H: " + h + " x Z: " + z;
+            
+		    window.onorientationchange = function() { 
+                var orientation = window.orientation;
+                switch(orientation) { 
+                    case 0:
+
+                    if( navigator.userAgent.match(/Android/i)
+                        || navigator.userAgent.match(/webOS/i)
+                        || navigator.userAgent.match(/iPhone/i)
+                        || navigator.userAgent.match(/iPad/i)
+                        || navigator.userAgent.match(/iPod/i)
+                        || navigator.userAgent.match(/BlackBerry/i)
+                        || navigator.userAgent.match(/Windows Phone/i)) {
+
+                            document.getElementById("rotate").style.display = "block";
+                            document.body.style.overflowY = "hidden";
+
+                        } else {
+                            document.getElementById("rotate").style.display = "none";
+                            document.body.style.overflowY = "scroll";
+                        }
+                        break;
+                    default:
+
+                        document.getElementById("rotate").style.display = "none";
+                        document.body.style.overflowY = "scroll";
+                        break;
+                } 
+            };
+		};*/
+        
+        
+        
+    </script>
 
 </head>
 
-<body></body>
+<body onload="myFunction()">
+    <div id="rotate">rotate for landscape || rotacione para a horizontal</div>
+</body>
 
 </html>
